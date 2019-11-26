@@ -261,23 +261,9 @@ def show_artist(artist_id):
 #  ----------------------------------------------------------------
 @app.route('/artists/<int:artist_id>/edit', methods=['GET'])
 def edit_artist(artist_id):
-    form = ArtistForm()
-
     artist = Artist.query.get(artist_id)
-    artist = {
-        "id": artist.id,
-        "name": artist.name,
-        "genres": artist.genres.split(","),
-        "city": artist.city,
-        "state": artist.state,
-        "phone": artist.phone,
-        "website": artist.website,
-        "facebook_link": artist.facebook_link,
-        "seeking_venue": artist.seeking_venue,
-        "seeking_description": artist.seeking_description,
-        "image_link": artist.image_link
-    }
-    # TODO: populate form with fields from artist with ID <artist_id>
+    form = ArtistForm(obj=artist)
+    form.genres.data = artist.genres.split(",")
     return render_template('forms/edit_artist.html', form=form, artist=artist)
 
 
