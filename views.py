@@ -126,17 +126,18 @@ def create_venue_form():
 @app.route('/venues/create', methods=['POST'])
 def create_venue_submission():
 
-    error = False
     data = {}
-    for fieldname, value in request.form.items():
+    firstgenre = True
+    for fieldname, value in request.form.items(multi=True):
         if fieldname == "genres":
-            try:
-                data["genres"] = data["genres"].append(value)
-            except KeyError:
-                data["genres"] = [value]
+            if firstgenre:
+                data["genres"] = str(value)
+                firstgenre = False
+            else:
+                data["genres"] = "," + str(value)
         else:
             data[fieldname] = value
-
+    error = False
     try:
         venue = Venue(
             name=data["name"],
@@ -145,7 +146,7 @@ def create_venue_submission():
             address=data["address"],
             phone=data["phone"],
             genres=data["genres"],
-            facebook_link=data["facebook_link"],
+            facebook_link=data["facebook_link"]
         )
         db.session.add(venue)
         db.session.commit()
@@ -269,6 +270,42 @@ def edit_artist(artist_id):
 
 @app.route('/artists/<int:artist_id>/edit', methods=['POST'])
 def edit_artist_submission(artist_id):
+    data = {}
+    firstgenre = True
+    for fieldname, value in request.form.items(multi=True):
+        if fieldname == "genres":
+            if firstgenre:
+                data["genres"] = str(value)
+                firstgenre = False
+            else:
+                data["genres"] += "," + str(value)
+        else:
+            data[fieldname] = value
+        print(str(fieldname) + " " + str(value))
+    print(data)
+    artist = Artist.query.get(artist_id)
+    error = False
+    try:
+        artist.name = data["name"]
+        artist.city = data["city"]
+        artist.state = data["state"]
+        artist.phone = data["phone"]
+        artist.genres = data["genres"]
+        artist.facebook_link = data["facebook_link"]
+        db.session.commit()
+    except Exception:
+        error = True
+        db.session.rollback()
+        print(exc_info())
+    finally:
+        db.session.close()
+        if error:
+            flash('An error occurred. Artist ' + data['name'] + 'could not be\
+                updated.')
+        else:
+            flash('Artist ' + data['name'] + ' was successfully\
+                updated!')
+
     # TODO: take values from the form submitted, and update existing
     # artist record with ID <artist_id> using the new attributes
 
