@@ -31,6 +31,22 @@ class Venue(db.Model):
             "venues": [self.identity()]
         }
 
+    def summarise(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "genres": self.genres.split(","),
+            "address": self.address,
+            "city": self.city,
+            "state": self.state,
+            "phone": self.phone,
+            "website": self.website,
+            "facebook_link": self.facebook_link,
+            "seeking_talent": self.seeking_talent,
+            "seeking_description": self.seeking_description,
+            "image_link": self.image_link
+        }
+
     def __repr__(self):
         return f'<Venue: {self.name}>'
 
@@ -51,6 +67,27 @@ class Artist(db.Model):
     seeking_description = db.Column(db.String(500))
     shows = db.relationship('Shows', backref='Artist', lazy=True)
 
+    def identity(self):
+        return {
+            "id": self.id,
+            "name": self.name
+        }
+
+    def summarise(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "genres": self.genres.split(","),
+            "city": self.city,
+            "state": self.state,
+            "phone": self.phone,
+            "website": self.website,
+            "facebook_link": self.facebook_link,
+            "seeking_venue": self.seeking_venue,
+            "seeking_description": self.seeking_description,
+            "image_link": self.image_link
+        }
+
     def __repr__(self):
         return f'<Artist: {self.name}>'
 
@@ -64,6 +101,32 @@ class Shows(db.Model):
     venue_id = db.Column(db.Integer, db.ForeignKey('Venue.id'),
                          nullable=False)
     start_time = db.Column(db.DateTime, nullable=False)
+
+    def with_artist(self):
+        return {
+            "artist_id": self.Artist.id,
+            "artist_name": self.Artist.name,
+            "artist_image_link": self.Artist.image_link,
+            "start_time": str(self.start_time)
+        }
+
+    def with_venue(self):
+        return {
+            "venue_id": self.Venue.id,
+            "venue_name": self.Venue.name,
+            "venue_image_link": self.Venue.image_link,
+            "start_time": str(self.start_time)
+        }
+
+    def with_artist_and_venue(self):
+        return {
+            "artist_id": self.Artist.id,
+            "artist_name": self.Artist.name,
+            "artist_image_link": self.Artist.image_link,
+            "venue_id": self.Venue.id,
+            "venue_name": self.Venue.name,
+            "start_time": str(self.start_time)
+        }
 
     def __repr__(self):
         return f'<Show: {self.id}>'
