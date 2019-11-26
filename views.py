@@ -39,17 +39,18 @@ def venues():
 @app.route('/venues/search', methods=['POST'])
 def search_venues():
     '''Searching venues from venue page'''
+    search_term = request.form["search_term"].lower()
+    # Query with WHERE and LIKE clause in lowercase
+    venues = Venue.query.filter(
+        func.lower(Venue.name).like('%{}%'.format(search_term.lower()))
+    ).all()
 
-    search_term = request.form["search_term"]
-    search_lc = search_term.lower()
-    searched_venues = Venue.query.filter(
-        func.lower(Venue.name).like('%{}%'.format(search_lc))).all()
     response = {
-        "count": len(searched_venues),
+        "count": len(venues),
         "data": []
     }
 
-    for venue in searched_venues:
+    for venue in venues:
         response["data"].append(venue.identity())
 
     return render_template('pages/search_venues.html', results=response,
@@ -58,6 +59,7 @@ def search_venues():
 
 @app.route('/venues/<int:venue_id>')
 def show_venue(venue_id):
+
     venue = Venue.query.get(venue_id)
     shows = Shows.query.filter_by(venue_id=venue_id)
 

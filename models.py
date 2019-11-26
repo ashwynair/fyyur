@@ -24,7 +24,7 @@ class Venue(db.Model):
             "name": self.name
         }
 
-    def venue_new_city(self):
+    def location_and_identity(self):
         return {
             "city": self.city,
             "state": self.state,
