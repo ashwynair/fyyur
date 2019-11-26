@@ -21,9 +21,6 @@ def index():
 
 @app.route('/venues')
 def venues():
-    # TODO: replace with real venues data.
-    # num_shows should be aggregated based on number of upcoming
-    # shows per venue.
     venue_list = Venue.query.all()
     data = []
     for v in venue_list:
@@ -71,8 +68,6 @@ def search_venues():
 
 @app.route('/venues/<int:venue_id>')
 def show_venue(venue_id):
-    # shows the venue page with the given venue_id
-    # TODO: replace with real venue data from the venues table, using venue_id
     venue = Venue.query.get(venue_id)
     shows = Shows.query.filter_by(venue_id=venue_id)
 
@@ -182,7 +177,6 @@ def delete_venue(venue_id):
 #  ----------------------------------------------------------------
 @app.route('/artists')
 def artists():
-    # TODO: replace with real data returned from querying the database
     artists = Artist.query.order_by('name').all()
     data = []
     for artist in artists:
@@ -216,9 +210,6 @@ def search_artists():
 
 @app.route('/artists/<int:artist_id>')
 def show_artist(artist_id):
-    # shows the venue page with the given venue_id
-    # TODO: replace with real venue data from the venues table, using
-    # venue_id
     artist = Artist.query.get(artist_id)
     shows = Shows.query.filter_by(artist_id=artist_id)
 
@@ -303,9 +294,6 @@ def edit_artist_submission(artist_id):
         else:
             flash('Artist ' + data['name'] + ' was successfully\
                 updated!')
-
-    # TODO: take values from the form submitted, and update existing
-    # artist record with ID <artist_id> using the new attributes
 
     return redirect(url_for('show_artist', artist_id=artist_id))
 
