@@ -18,6 +18,19 @@ class Venue(db.Model):
     genres = db.Column(db.String())
     shows = db.relationship('Shows', backref='Venue', lazy=True)
 
+    def identity(self):
+        return {
+            "id": self.id,
+            "name": self.name
+        }
+
+    def venue_new_city(self):
+        return {
+            "city": self.city,
+            "state": self.state,
+            "venues": [self.identity()]
+        }
+
     def __repr__(self):
         return f'<Venue: {self.name}>'
 

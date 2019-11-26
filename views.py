@@ -21,25 +21,17 @@ def index():
 
 @app.route('/venues')
 def venues():
-    venue_list = Venue.query.all()
+    '''Display all venues to the end-user'''
+    all_venues = Venue.query.all()
     data = []
-    for v in venue_list:
+    # Add venue to an existing city, or a new city
+    for v in all_venues:
         index = next((i for i, value in enumerate(data)
                       if value["city"] == v.city), -1)
         if index < 0:
-            data.append({
-                "city": v.city,
-                "state": v.state,
-                "venues": [{
-                    "id": v.id,
-                    "name": v.name
-                }]
-            })
+            data.append(v.location_and_identity())
         else:
-            data[index]["venues"].append({
-                "id": v.id,
-                "name": v.name
-            })
+            data[index]["venues"].append(v.identity())
 
     return render_template('pages/venues.html', areas=data)
 
@@ -56,11 +48,9 @@ def search_venues():
         "count": len(searched_venues),
         "data": []
     }
+
     for venue in searched_venues:
-        response["data"].append({
-            "id": venue.id,
-            "name": venue.name,
-        })
+        response["data"].append(venue.identity())
 
     return render_template('pages/search_venues.html', results=response,
                            search_term=search_term)
