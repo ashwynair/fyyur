@@ -14,7 +14,7 @@ def test():
 
 
 def commit():
-    message = raw_input("Enter a git commit message: ")
+    message = input("Enter a git commit message: ")
     local("git add . && git commit -am '{}'".format(message))
 
 
@@ -40,7 +40,8 @@ def heroku():
 
 def heroku_test():
     local(
-        "heroku run python test_tasks.py -v && heroku run python test_users.py -v"
+        "heroku run python test_tasks.py -v\
+            && heroku run python test_users.py -v"
     )
 
 
