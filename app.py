@@ -1,20 +1,20 @@
-#----------------------------------------------------------------------------#
+# -------------------------------------------------------------------------- #
 # Imports
-#----------------------------------------------------------------------------#
+# -------------------------------------------------------------------------- #
 
 import json
 import dateutil.parser
 import babel
-from flask import Flask
+from flask import Flask, render_template
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import logging
 from logging import Formatter, FileHandler
 
-#----------------------------------------------------------------------------#
+# -------------------------------------------------------------------------- #
 # App Config.
-#----------------------------------------------------------------------------#
+# -------------------------------------------------------------------------- #
 
 app = Flask(__name__)
 moment = Moment(app)
@@ -24,17 +24,19 @@ migrate = Migrate(app, db)
 
 from views import *
 
-#----------------------------------------------------------------------------#
+# -------------------------------------------------------------------------- #
 # Filters.
-#----------------------------------------------------------------------------#
+# -------------------------------------------------------------------------- #
+
 
 def format_datetime(value, format='medium'):
-  date = dateutil.parser.parse(value)
-  if format == 'full':
-      format="EEEE MMMM, d, y 'at' h:mma"
-  elif format == 'medium':
-      format="EE MM, dd, y h:mma"
-  return babel.dates.format_datetime(date, format)
+    date = dateutil.parser.parse(value)
+    if format == 'full':
+        format="EEEE MMMM, d, y 'at' h:mma"
+    elif format == 'medium':
+        format="EE MM, dd, y h:mma"
+    return babel.dates.format_datetime(date, format)
+
 
 app.jinja_env.filters['datetime'] = format_datetime
 
@@ -42,6 +44,7 @@ app.jinja_env.filters['datetime'] = format_datetime
 @app.errorhandler(404)
 def not_found_error(error):
     return render_template('errors/404.html'), 404
+
 
 @app.errorhandler(500)
 def server_error(error):
@@ -58,9 +61,9 @@ if not app.debug:
     app.logger.addHandler(file_handler)
     app.logger.info('errors')
 
-#----------------------------------------------------------------------------#
+# -------------------------------------------------------------------------- #
 # Launch.
-#----------------------------------------------------------------------------#
+# -------------------------------------------------------------------------- #
 
 # Default port:
 if __name__ == '__main__':
