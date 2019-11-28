@@ -285,29 +285,39 @@ def create_artist_form():
 @app.route('/artists/create', methods=['POST'])
 def create_artist_submission():
     form = ArtistForm(request.form)
-    error = False
-    try:
-        artist = Artist(
-            name=form.name.data,
-            city=form.city.data,
-            state=form.state.data,
-            phone=form.phone.data,
-            genres=form.genres.data,
-            facebook_link=form.facebook_link.data
-        )
-        db.session.add(artist)
-        db.session.commit()
-    except Exception:
-        error = True
-        db.session.rollback()
-        print(exc_info())
-    finally:
-        db.session.close()
-        flash('An error occurred. Artist ' + str(form.name.data) + 'could not be\
-              listed.') if error else flash('Artist ' + str(form.name.data) + ' was successfully\
-                                            listed!')
+    if form.validate_on_submit():
 
-    return render_template('pages/home.html')
+        error = False
+        try:
+            artist = Artist(
+                name=form.name.data,
+                city=form.city.data,
+                state=form.state.data,
+                phone=form.phone.data,
+                genres=form.genres.data,
+                facebook_link=form.facebook_link.data
+            )
+            db.session.add(artist)
+            db.session.commit()
+        except Exception:
+            error = True
+            db.session.rollback()
+            print(exc_info())
+        finally:
+            db.session.close()
+            if error:
+                flash('An error occurred. Artist ' + str(form.name.data) + 'could not be\
+                      listed.')
+            else:
+                flash('Artist ' + str(form.name.data) + ' was successfully\
+                      listed!')
+
+        return render_template('pages/home.html')
+
+    else:
+        flash('Please ensure all details provided are valid')
+        print(form.errors)
+        return render_template('forms/new_artist.html', form=form)
 
 
 #  Shows
