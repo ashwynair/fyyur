@@ -114,8 +114,8 @@ def create_venue_submission():
         finally:
             db.session.close()
             if error:
-                flash('An error occurred. Venue ' + form.name.data + 'could not be\
-                    listed.')
+                flash('An error occurred. Venue ' + form.name.data + 'could\
+                      not be listed.')
             else:
                 flash('Venue ' + form.name.data + ' was successfully\
                     listed!')
@@ -220,8 +220,8 @@ def edit_artist_submission(artist_id):
         finally:
             db.session.close()
             if error:
-                flash('An error occurred. Artist ' + str(form.name.data) + 'could not be\
-                    updated.')
+                flash('An error occurred. Artist ' + str(form.name.data) +
+                      'could not be updated.')
             else:
                 flash('Artist ' + str(form.name.data) + ' was successfully\
                     updated!')
@@ -263,8 +263,8 @@ def edit_venue_submission(venue_id):
         finally:
             db.session.close()
             if error:
-                flash('An error occurred. Venue ' + str(form.name.data) + 'could not be\
-                    updated.')
+                flash('An error occurred. Venue ' + str(form.name.data) +
+                      'could not be updated.')
             else:
                 flash('Venue ' + str(form.name.data) + ' was successfully\
                     updated!')
@@ -308,8 +308,8 @@ def create_artist_submission():
         finally:
             db.session.close()
             if error:
-                flash('An error occurred. Artist ' + str(form.name.data) + 'could not be\
-                      listed.')
+                flash('An error occurred. Artist ' + str(form.name.data) +
+                      'could not be listed.')
             else:
                 flash('Artist ' + str(form.name.data) + ' was successfully\
                       listed!')
