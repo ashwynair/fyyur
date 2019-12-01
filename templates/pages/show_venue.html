@@ -1,14 +1,22 @@
 {% extends 'layouts/main.html' %}
 {% block title %}Venue Search{% endblock %}
 {% block content %}
+<head>
+	<meta id="delete_url" data-url="{{ url_for('delete_venue', venue_id=venue.id) }}">
+</head>
 <div class="row">
 	<div class="col-sm-6">
 		<h1 class="monospace">
 			{{ venue.name }}
 		</h1>
-		<div>
-			<a href="/venues/{{ venue.id }}/edit"><button class="btn btn-primary" >Edit</button></a>
+		<div class="form-inline">
+			<form class=form method="GET" formaction="/venues/{{ venue.id }}/edit" style="float: left; margin-right: 5px;">
+				<input type="submit" value="Edit" class="btn btn-primary">
+			</form>
+			<input type="submit" id="delete_btn" data-id="{{ venue.id }}" value="Delete" class="btn btn-warning">
 		</div>
+		</br>
+	</br>
 		<p class="subtitle">
 			ID: {{ venue.id }}
 		</p>
@@ -77,6 +85,20 @@
 		{% endfor %}
 	</div>
 </section>
-
+<script type="text/javascript">
+	const deletebtn = document.getElementById('delete_btn').onclick = function(e) {
+		e.preventDefault();
+		const venueid = e.target.dataset['id'];
+		fetch('/venues/' + venueid, {
+			method: 'DELETE',
+			body: JSON.stringify({
+				'id': venueid,
+			}),
+			headers: {
+				'Content-Type': 'application/json',
+			}
+		});
+	};
+</script>
 {% endblock %}
 
