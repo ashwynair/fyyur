@@ -70,10 +70,8 @@ First, [install Flask](http://flask.pocoo.org/docs/1.0/installation/#install-fla
 
 To start and run the local development server,
 
-1. Initialize and activate a virtualenv:
+1. Activate the virtualenv:
   ```
-  $ cd YOUR_PROJECT_DIRECTORY_PATH/
-  $ virtualenv --no-site-packages env
   $ source env/bin/activate
   ```
 
@@ -83,6 +81,8 @@ To start and run the local development server,
   ```
 
 3. Create a database called `fyyur` by running `psql -U postgres` and then `CREATE DATABASE fyyur;`. Exit by entering `\q`
+
+4. Run migration files with `flask db upgrade`
 
 4. Run the development server:
   ```
