@@ -94,6 +94,19 @@ def create_venue_form():
 @app.route('/venues/create', methods=['POST'])
 def create_venue_submission():
     form = VenueForm(request.form)
+    print(request.form)
+
+    facebook_link = form.facebook_link.data\
+        if form.facebook_link.data != "" else None
+    image_link = form.image_link.data\
+        if form.image_link.data != "" else None
+    website = form.website.data\
+        if form.website.data != "" else None
+    seeking_talent = True\
+        if form.seeking_description.data != "" else False
+    seeking_description = form.seeking_description.data\
+        if form.seeking_description.data != "" else None
+
     if form.validate_on_submit():
         error = False
         try:
@@ -104,7 +117,11 @@ def create_venue_submission():
                 address=form.address.data,
                 phone=form.phone.data,
                 genres=",".join(form.genres.data),
-                facebook_link=form.facebook_link.data
+                facebook_link=facebook_link,
+                image_link=image_link,
+                website=website,
+                seeking_talent=seeking_talent,
+                seeking_description=seeking_description
             )
             venue.insert()
         except Exception:
@@ -213,6 +230,18 @@ def edit_artist(artist_id):
 @app.route('/artists/<int:artist_id>/edit', methods=['POST'])
 def edit_artist_submission(artist_id):
     form = ArtistForm(request.form)
+
+    facebook_link = form.facebook_link.data\
+        if form.facebook_link.data != "" else None
+    image_link = form.image_link.data\
+        if form.image_link.data != "" else None
+    website = form.website.data\
+        if form.website.data != "" else None
+    seeking_venue = True\
+        if form.seeking_description.data != "" else False
+    seeking_description = form.seeking_description.data\
+        if form.seeking_description.data != "" else None
+
     artist = Artist.query.get(artist_id)
     if form.validate_on_submit():
         error = False
@@ -222,7 +251,11 @@ def edit_artist_submission(artist_id):
             artist.state = form.state.data
             artist.phone = form.phone.data
             artist.genres = ",".join(form.genres.data)
-            artist.facebook_link = form.facebook_link.data
+            artist.facebook_link = facebook_link
+            artist.image_link = image_link
+            artist.website = website
+            artist.seeking_venue = seeking_venue
+            artist.seeking_description = seeking_description
             artist.update()
         except Exception:
             error = True
@@ -256,6 +289,18 @@ def edit_venue(venue_id):
 def edit_venue_submission(venue_id):
     form = VenueForm(request.form)
     venue = Venue.query.get(venue_id)
+
+    facebook_link = form.facebook_link.data\
+        if form.facebook_link.data != "" else None
+    image_link = form.image_link.data\
+        if form.image_link.data != "" else None
+    website = form.website.data\
+        if form.website.data != "" else None
+    seeking_talent = True\
+        if form.seeking_description.data != "" else False
+    seeking_description = form.seeking_description.data\
+        if form.seeking_description.data != "" else None
+
     if form.validate_on_submit():
         error = False
         try:
@@ -265,7 +310,11 @@ def edit_venue_submission(venue_id):
             venue.state = form.state.data
             venue.phone = form.phone.data
             venue.genres = ",".join(form.genres.data)
-            venue.facebook_link = form.facebook_link.data
+            venue.facebook_link = facebook_link
+            venue.image_link = image_link
+            venue.website = website
+            venue.seeking_talent = seeking_talent
+            venue.seeking_description = seeking_description
             venue.update()
         except Exception:
             error = True
@@ -297,6 +346,18 @@ def create_artist_form():
 @app.route('/artists/create', methods=['POST'])
 def create_artist_submission():
     form = ArtistForm(request.form)
+
+    facebook_link = form.facebook_link.data\
+        if form.facebook_link.data != "" else None
+    image_link = form.image_link.data\
+        if form.image_link.data != "" else None
+    website = form.website.data\
+        if form.website.data != "" else None
+    seeking_venue = True\
+        if form.seeking_description.data != "" else False
+    seeking_description = form.seeking_description.data\
+        if form.seeking_description.data != "" else None
+
     if form.validate_on_submit():
 
         error = False
@@ -308,7 +369,11 @@ def create_artist_submission():
                 state=form.state.data,
                 phone=form.phone.data,
                 genres=",".join(form.genres.data),
-                facebook_link=form.facebook_link.data
+                facebook_link=facebook_link,
+                image_link=image_link,
+                website=website,
+                seeking_venue=seeking_venue,
+                seeking_description=seeking_description
             )
             artist.insert()
         except Exception:
