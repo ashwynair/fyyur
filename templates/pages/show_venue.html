@@ -89,6 +89,7 @@
 	const deletebtn = document.getElementById('delete_btn').onclick = function(e) {
 		e.preventDefault();
 		const venueid = e.target.dataset['id'];
+		console.log(venueid);
 		fetch('/venues/' + venueid, {
 			method: 'DELETE',
 			body: JSON.stringify({

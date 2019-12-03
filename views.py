@@ -105,8 +105,7 @@ def create_venue_submission():
                 genres=",".join(form.genres.data),
                 facebook_link=form.facebook_link.data
             )
-            db.session.add(venue)
-            db.session.commit()
+            venue.insert()
         except Exception:
             error = True
             db.session.rollback()
@@ -130,13 +129,9 @@ def create_venue_submission():
 def delete_venue(venue_id):
     error = False
     try:
-        deleted = request.get_json()['id']
-        print(deleted)
         venue = Venue.query.get(venue_id)
         print(venue)
-        name = venue.name
-        db.session.delete(venue)
-        db.session.commit
+        venue.delete()
     except Exception:
         error = True
         db.session.rollback()
@@ -144,11 +139,13 @@ def delete_venue(venue_id):
     finally:
         db.session.close()
         if error:
-            flash('An error occured. Venue ' + name + ' could not be deleted.\
-                  Please try again later.')
+            flash('An error occured. Venue could not be deleted.')
         else:
-            flash('Artist successfully deleted!')
-        return redirect(url_for('index'))
+            flash('Venue successfully deleted!')
+        return jsonify({
+            'success': True,
+            'deleted_venue': venue_id
+        })
 
 #  Artists
 #  ----------------------------------------------------------------
@@ -224,7 +221,7 @@ def edit_artist_submission(artist_id):
             artist.phone = form.phone.data
             artist.genres = ",".join(form.genres.data)
             artist.facebook_link = form.facebook_link.data
-            db.session.commit()
+            artist.update()
         except Exception:
             error = True
             db.session.rollback()
@@ -267,7 +264,7 @@ def edit_venue_submission(venue_id):
             venue.phone = form.phone.data
             venue.genres = ",".join(form.genres.data)
             venue.facebook_link = form.facebook_link.data
-            db.session.commit()
+            venue.update()
         except Exception:
             error = True
             db.session.rollback()
@@ -311,8 +308,7 @@ def create_artist_submission():
                 genres=",".join(form.genres.data),
                 facebook_link=form.facebook_link.data
             )
-            db.session.add(artist)
-            db.session.commit()
+            artist.insert()
         except Exception:
             error = True
             db.session.rollback()
@@ -362,7 +358,7 @@ def create_show_submission():
                 venue_id=form.venue_id.data,
                 start_time=form.start_time.data
             )
-            db.session.add(show)
+            show.insert()
         except Exception:
             error = True
             db.session.rollback()

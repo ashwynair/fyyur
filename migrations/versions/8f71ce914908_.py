@@ -21,7 +21,7 @@ def upgrade():
     op.add_column('Artist', sa.Column('seeking_description', sa.String(length=500), nullable=True))
     op.add_column('Artist', sa.Column('seeking_venue', sa.Boolean(), nullable=True))
     op.add_column('Artist', sa.Column('website', sa.String(length=120), nullable=True))
-    op.add_column('Venue', sa.Column('genres', sa.String(), nullable=True))
+    op.add_column('Venue', sa.Column('genres', sa.String(length=500), nullable=True))
     op.add_column('Venue', sa.Column('seeking_description', sa.String(length=500), nullable=True))
     op.add_column('Venue', sa.Column('seeking_talent', sa.Boolean(), nullable=True))
     op.add_column('Venue', sa.Column('website', sa.String(length=120), nullable=True))
