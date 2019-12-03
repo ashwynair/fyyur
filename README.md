@@ -92,8 +92,6 @@ postgres=# \q
 $ flask db upgrade
 ```
 
-5. Run migration files with `flask db upgrade`
-
 6. Run the development server:
   ```
   $ FLASK_APP=app.py FLASK_ENV=development flask run
