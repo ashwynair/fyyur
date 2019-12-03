@@ -61,12 +61,16 @@ Highlight folders:
 
 ### Development Setup
 
-First, [install Flask](http://flask.pocoo.org/docs/1.0/installation/#install-flask) if you haven't already. Secondly, [install and start postgres](https://classroom.udacity.com/nanodegrees/nd0044/parts/216c669c-5e62-43a1-bcb9-8a8e5eca972a/modules/43f34772-8032-4851-938b-d952bbfc7f1c/lessons/e9a00338-ff0d-415b-b382-25d445e529a1/concepts/5211128a-28f0-4e57-b181-ec28afb84ae6), if you haven't already. 
+First, [install Flask](http://flask.pocoo.org/docs/1.0/installation/#install-flask) if you haven't already. Secondly, [install and start postgres](https://classroom.udacity.com/nanodegrees/nd0044/parts/216c669c-5e62-43a1-bcb9-8a8e5eca972a/modules/43f34772-8032-4851-938b-d952bbfc7f1c/lessons/e9a00338-ff0d-415b-b382-25d445e529a1/concepts/5211128a-28f0-4e57-b181-ec28afb84ae6), if you haven't already. For MacOS, you can do this by running the following (assuming you have Homebrew):
 
   ```
   $ cd ~
   $ sudo pip3 install Flask
+  $ brew install postgres
+  $ pg_ctl -D /usr/local/var/postgres start
   ```
+
+_Note that you can stop postgres by running_ `$ pg_ctl -D /usr/local/var/postgres stop` _when necessary._
 
 To start and run the local development server,
 
