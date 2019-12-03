@@ -92,9 +92,9 @@ postgres=# \q
 $ flask db upgrade
 ```
 
-6. Run the development server:
+4. Run the development server:
   ```
   $ FLASK_APP=app.py FLASK_ENV=development flask run
   ```
 
-7. Navigate to Home page [http://localhost:5000](http://localhost:5000)
+5. Navigate to Home page [http://localhost:5000](http://localhost:5000)
