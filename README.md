@@ -84,13 +84,19 @@ To start and run the local development server,
   $ pip install -r requirements.txt
   ```
 
-3. Create a database called `fyyur` by running `psql -U postgres` and then `CREATE DATABASE fyyur;`. Exit by entering `\q`
+3. Create and upgrade the database:
+```
+$ psql -U postgres
+postgres=# CREATE DATABASE fyyur;
+postgres=# \q
+$ flask db upgrade
+```
 
-4. Run migration files with `flask db upgrade`
+5. Run migration files with `flask db upgrade`
 
-4. Run the development server:
+6. Run the development server:
   ```
   $ FLASK_APP=app.py FLASK_ENV=development flask run
   ```
 
-5. Navigate to Home page [http://localhost:5000](http://localhost:5000)
+7. Navigate to Home page [http://localhost:5000](http://localhost:5000)
