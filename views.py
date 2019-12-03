@@ -76,7 +76,8 @@ def show_venue(venue_id):
         "upcoming_shows_count": len(upcoming_shows)
     }
     # Appending schedule to summary of venue
-    data = Venue.query.get(venue_id).summarise()
+    venue = Venue.query.get(venue_id)
+    data = venue.summarise()
     data.update(schedule)
     return render_template('pages/show_venue.html', venue=data)
 
@@ -140,12 +141,13 @@ def delete_venue(venue_id):
         db.session.close()
         if error:
             flash('An error occured. Venue could not be deleted.')
+            return None
         else:
             flash('Venue successfully deleted!')
-        return jsonify({
-            'success': True,
-            'deleted_venue': venue_id
-        })
+            return jsonify({
+                'success': True,
+                'deleted_venue': venue_id
+            })
 
 #  Artists
 #  ----------------------------------------------------------------
@@ -328,6 +330,28 @@ def create_artist_submission():
         flash('Please ensure all details provided are valid')
         return render_template('forms/new_artist.html', form=form)
 
+
+@app.route('/artists/<artist_id>', methods=['DELETE'])
+def delete_artist(artist_id):
+    error = False
+    try:
+        artist = Artist.query.get(artist_id)
+        artist.delete()
+    except Exception:
+        error = True
+        db.session.rollback()
+        print(exc_info())
+    finally:
+        db.session.close()
+        if error:
+            flash('An error occured. Artist could not be deleted.')
+            return None
+        else:
+            flash('Artist successfully deleted!')
+            return jsonify({
+                'success': True,
+                'deleted_artist': artist_id
+            })
 
 #  Shows
 #  ----------------------------------------------------------------

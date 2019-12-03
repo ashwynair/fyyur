@@ -1,22 +1,15 @@
 {% extends 'layouts/main.html' %}
 {% block title %}Venue Search{% endblock %}
 {% block content %}
-<head>
-	<meta id="delete_url" data-url="{{ url_for('delete_venue', venue_id=venue.id) }}">
-</head>
 <div class="row">
 	<div class="col-sm-6">
 		<h1 class="monospace">
 			{{ venue.name }}
 		</h1>
-		<div class="form-inline">
-			<form class=form method="GET" formaction="/venues/{{ venue.id }}/edit" style="float: left; margin-right: 5px;">
-				<input type="submit" value="Edit" class="btn btn-primary">
-			</form>
-			<input type="submit" id="delete_btn" data-id="{{ venue.id }}" value="Delete" class="btn btn-warning">
-		</div>
+			<button class="btn btn-primary" data-id="{{ venue.id }}" type="button" id="edit-button">Edit</button>
+			<button class="btn btn-warning" data-id="{{ venue.id }}" type="button" id="delete-button">Delete</button>
 		</br>
-	</br>
+		</br>
 		<p class="subtitle">
 			ID: {{ venue.id }}
 		</p>
@@ -86,20 +79,33 @@
 	</div>
 </section>
 <script type="text/javascript">
-	const deletebtn = document.getElementById('delete_btn').onclick = function(e) {
-		e.preventDefault();
-		const venueid = e.target.dataset['id'];
-		console.log(venueid);
-		fetch('/venues/' + venueid, {
-			method: 'DELETE',
-			body: JSON.stringify({
-				'id': venueid,
-			}),
-			headers: {
-				'Content-Type': 'application/json',
-			}
-		});
-	};
+	const editbtn = document.getElementById('edit-button');
+	editbtn.onclick = function(e) {
+		const venueId = e.target.dataset['id'];
+		fetch('/venues/' + venueId +'/edit', {
+			method: 'GET'
+		})
+		.then(function() {
+			window.location.href = '/venues/' + venueId + '/edit';
+		})
+		.catch(function(e) {
+			console.log('error', e)
+		})
+	}
+
+	const deletebtn = document.getElementById('delete-button');
+	deletebtn.onclick = function(e) {
+		const venueId = e.target.dataset['id'];
+		fetch('/venues/' + venueId, {
+			method: 'DELETE'
+		})
+		.then(function() {
+			window.location.href = '/venues';
+		})
+		.catch(function(e) {
+			console.log('error', e)
+		})
+	}
 </script>
 {% endblock %}
 
