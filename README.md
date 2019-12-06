@@ -74,8 +74,9 @@ _Note that you can stop postgres by running_ `$ pg_ctl -D /usr/local/var/postgre
 
 To start and run the local development server,
 
-1. Activate the virtualenv:
+1. Create and activate a virtualenv:
   ```
+  $ virtualenv --no-site-packages env
   $ source env/bin/activate
   ```
 
